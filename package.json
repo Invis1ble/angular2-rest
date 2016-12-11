@@ -1,0 +1,44 @@
+{
+  "name": "ng2-rest-service",
+  "version": "0.1.0",
+  "scripts": {
+    "lint": "tslint src/**/*.ts",
+    "prepublish": "tsc",
+    "tsc": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Invis1ble/angular2-rest"
+  },
+  "author": "Invis1ble",
+  "keywords": [
+    "angular",
+    "angular2",
+    "ng2",
+    "rest",
+    "http",
+    "client",
+    "service",
+    "module"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Invis1ble/angular2-rest/issues"
+  },
+  "main": "./dist/index.js",
+  "typings": "./dist/index.d.ts",
+  "dependencies": {},
+  "devDependencies": {
+    "@angular/common": "^2.3.0",
+    "@angular/core": "^2.3.0",
+    "@angular/http": "^2.3.0",
+    "@types/core-js": "^0.9.35",
+    "codelyzer": "^0.0.28",
+    "core-js": "^2.4.1",
+    "reflect-metadata": "^0.1.8",
+    "rxjs": "5.0.0-rc.4",
+    "tslint": "^3.15.1",
+    "typescript": "~2.0.3",
+    "zone.js": "0.7.2"
+  }
+}
