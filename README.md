@@ -1,4 +1,4 @@
-# ng2-rest-service
+# Angular 2 REST
 
 [![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
 
