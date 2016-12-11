@@ -1,1 +1,0 @@
-{"version":3,"file":"body.js","sourceRoot":"","sources":["../../../src/decorators/body.ts"],"names":[],"mappings":";AAEA,QAAO,kBAAkB,CAAC,CAAA;AAEb,uBAAe,GAAG,MAAM,CAAC,WAAW,CAAC,CAAC;AAMtC,YAAI,GAAG,UAAU,OAAoB,EAAE,UAAkB,EAAE,cAAsB;IAC1F,IAAM,YAAY,GAAiB;QAC/B,KAAK,EAAE,cAAc;KACxB,CAAC;IAEF,OAAO,CAAC,cAAc,CAAC,uBAAe,EAAE,YAAY,EAAE,OAAO,EAAE,UAAU,CAAC,CAAC;AAC/E,CAAC,CAAC"}
