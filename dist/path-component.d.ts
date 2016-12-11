@@ -1,4 +1,3 @@
-/// <reference types="core-js" />
 export interface PathComponentMetadata {
     name: string;
     index: number;
