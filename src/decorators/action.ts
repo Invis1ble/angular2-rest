@@ -19,14 +19,14 @@ import { QueryMetadata, QueriesMetadata, queriesMetadataKey } from './query';
 
 export type Method = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
 
-export interface ActionConfiguration<Data, TransformedData> {
+export interface ActionConfiguration<RequestData, TransformedRequestData, ResponseData, TransformedResponseData> {
     client?: ClientType;
     method?: Method;
     path: string;
     headers?: Headers | HeadersGetter;
     useRawResponse?: boolean;
-    responseTransformer?: ResponseTransformerType<Data, TransformedData>;
-    requestTransformer?: RequestTransformerType<Data, TransformedData>;
+    responseTransformer?: ResponseTransformerType<RequestData, TransformedRequestData>;
+    requestTransformer?: RequestTransformerType<ResponseData, TransformedResponseData>;
 }
 
 const appendHeaders = (service: RestService, headers: AngularHeaders, additionalHeaders: Headers | HeadersGetter | undefined): void => {
@@ -45,8 +45,8 @@ const appendHeaders = (service: RestService, headers: AngularHeaders, additional
     }
 };
 
-export const Action = function <Data, TransformedData>(config: ActionConfiguration<Data, TransformedData>): MethodDecorator {
-    return function <D extends TypedPropertyDescriptor<(...args: any[]) => Observable<Response | TransformedData>>>(service: RestService, methodName: string, descriptor: D): D {
+export const Action = function <RequestData, TransformedRequestData, ResponseData, TransformedResponseData>(config: ActionConfiguration<RequestData, TransformedRequestData, ResponseData, TransformedResponseData>): MethodDecorator {
+    return function <D extends TypedPropertyDescriptor<(...args: any[]) => Observable<Response | TransformedResponseData>>>(service: RestService, methodName: string, descriptor: D): D {
         descriptor.value = function (...args: any[]) {
             const client: Client = this.injector.get(config.client || Http);
 
@@ -88,7 +88,7 @@ export const Action = function <Data, TransformedData>(config: ActionConfigurati
                 requestOptions.body = args[bodyMetadata.index];
 
                 if (isPresent(config.requestTransformer)) {
-                    const requestTransformer: Transformer<Data, TransformedData> = this.injector.get(config.requestTransformer);
+                    const requestTransformer: Transformer<RequestData, TransformedRequestData> = this.injector.get(config.requestTransformer);
                     requestOptions.body = requestTransformer.transform(requestOptions.body);
                 }
             }
@@ -103,7 +103,7 @@ export const Action = function <Data, TransformedData>(config: ActionConfigurati
                 return response;
             }
 
-            const responseTransformer: Transformer<Data, TransformedData> = this.injector.get(config.responseTransformer);
+            const responseTransformer: Transformer<ResponseData, TransformedResponseData> = this.injector.get(config.responseTransformer);
 
             return response.switchMap((response) => {
                 const transformed = responseTransformer.transform(response);

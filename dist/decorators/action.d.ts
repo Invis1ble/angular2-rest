@@ -5,13 +5,13 @@ import { ClientType } from '../client';
 import { Headers, HeadersGetter } from '../headers';
 import { RequestTransformerType, ResponseTransformerType } from '../transformer';
 export declare type Method = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
-export interface ActionConfiguration<Data, TransformedData> {
+export interface ActionConfiguration<RequestData, TransformedRequestData, ResponseData, TransformedResponseData> {
     client?: ClientType;
     method?: Method;
     path: string;
     headers?: Headers | HeadersGetter;
     useRawResponse?: boolean;
-    responseTransformer?: ResponseTransformerType<Data, TransformedData>;
-    requestTransformer?: RequestTransformerType<Data, TransformedData>;
+    responseTransformer?: ResponseTransformerType<RequestData, TransformedRequestData>;
+    requestTransformer?: RequestTransformerType<ResponseData, TransformedResponseData>;
 }
-export declare const Action: <Data, TransformedData>(config: ActionConfiguration<Data, TransformedData>) => MethodDecorator;
+export declare const Action: <RequestData, TransformedRequestData, ResponseData, TransformedResponseData>(config: ActionConfiguration<RequestData, TransformedRequestData, ResponseData, TransformedResponseData>) => MethodDecorator;
