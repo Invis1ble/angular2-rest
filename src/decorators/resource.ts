@@ -1,7 +1,5 @@
 import { isPresent } from '@angular/core/src/facade/lang';
 
-import 'reflect-metadata';
-
 import { Headers, HeadersGetter, headersMetadataKey } from '../headers';
 
 export interface BaseUrlGetter {

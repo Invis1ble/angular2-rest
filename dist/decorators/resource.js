@@ -1,6 +1,5 @@
 "use strict";
 var lang_1 = require('@angular/core/src/facade/lang');
-require('reflect-metadata');
 var headers_1 = require('../headers');
 exports.Resource = function (config) {
     return function (constructor) {

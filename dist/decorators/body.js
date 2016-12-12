@@ -1,5 +1,4 @@
 "use strict";
-require('reflect-metadata');
 exports.bodyMetadataKey = Symbol('rest:body');
 exports.Body = function (service, methodName, parameterIndex) {
     var bodyMetadata = {

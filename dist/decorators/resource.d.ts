@@ -1,4 +1,3 @@
-import 'reflect-metadata';
 import { Headers, HeadersGetter } from '../headers';
 export interface BaseUrlGetter {
     (): string;

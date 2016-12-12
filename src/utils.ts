@@ -1,5 +1,3 @@
-import 'reflect-metadata';
-
 import { PathComponentMetadata, PathComponentsMetadata } from './path-component';
 import { RestService } from './rest.service';
 

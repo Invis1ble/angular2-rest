@@ -2,7 +2,6 @@
 var http_1 = require('@angular/http');
 var lang_1 = require('@angular/core/src/facade/lang');
 var Observable_1 = require('rxjs/Observable');
-require('reflect-metadata');
 require('rxjs/add/observable/of');
 require('rxjs/add/operator/map');
 require('rxjs/add/operator/switchMap');

@@ -1,5 +1,4 @@
 "use strict";
-require('reflect-metadata');
 exports.buildPathComponentDecorator = function (pathComponentMetadataKey) {
     return function (name) {
         return function (service, methodName, parameterIndex) {

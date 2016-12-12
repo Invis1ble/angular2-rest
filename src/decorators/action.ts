@@ -3,7 +3,6 @@ import { RequestArgs } from '@angular/http/src/interfaces';
 import { isPresent } from '@angular/core/src/facade/lang';
 
 import { Observable } from 'rxjs/Observable';
-import 'reflect-metadata';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/switchMap';
