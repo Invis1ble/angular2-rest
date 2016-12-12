@@ -1,7 +1,5 @@
 import { RestService } from '../rest.service';
 
-import 'reflect-metadata';
-
 export const bodyMetadataKey = Symbol('rest:body');
 
 export interface BodyMetadata {
