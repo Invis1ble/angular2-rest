@@ -8,14 +8,14 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/switchMap';
 
 import { BodyMetadata, bodyMetadataKey } from './body';
-import { Client, ClientType } from '../client';
+import { Client, ClientType, clientMetadataKey } from '../client';
 import { Headers, HeadersGetter, headersMetadataKey } from '../headers';
 import { MethodResolver } from '../method-resolver';
 import { ParametersMetadata, parametersMetadataKey } from './parameter';
 import { PathGenerator } from '../path-generator';
+import { QueryMetadata, QueriesMetadata, queriesMetadataKey } from './query';
 import { RestService } from '../rest.service';
 import { RequestTransformerType, ResponseTransformerType, Transformer } from '../transformer';
-import { QueryMetadata, QueriesMetadata, queriesMetadataKey } from './query';
 
 export type Method = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
 
@@ -48,7 +48,9 @@ const appendHeaders = (service: RestService, headers: AngularHeaders, additional
 export const Action = function <RequestData, TransformedRequestData, ResponseData, TransformedResponseData>(config: ActionConfiguration<RequestData, TransformedRequestData, ResponseData, TransformedResponseData>): MethodDecorator {
     return function <D extends TypedPropertyDescriptor<(...args: any[]) => Observable<Response | TransformedResponseData>>>(service: RestService, methodName: string, descriptor: D): D {
         descriptor.value = function (...args: any[]) {
-            const client: Client = this.injector.get(config.client || Http);
+            const client: Client = this.injector.get(
+                config.client || Reflect.getOwnMetadata(clientMetadataKey, service.constructor) || Http
+            );
 
             if (!isPresent(config.method)) {
                 const methodResolver: MethodResolver = this.injector.get(MethodResolver);

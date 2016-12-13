@@ -6,6 +6,7 @@ require('rxjs/add/observable/of');
 require('rxjs/add/operator/map');
 require('rxjs/add/operator/switchMap');
 var body_1 = require('./body');
+var client_1 = require('../client');
 var headers_1 = require('../headers');
 var method_resolver_1 = require('../method-resolver');
 var parameter_1 = require('./parameter');
@@ -31,7 +32,7 @@ exports.Action = function (config) {
             for (var _i = 0; _i < arguments.length; _i++) {
                 args[_i - 0] = arguments[_i];
             }
-            var client = this.injector.get(config.client || http_1.Http);
+            var client = this.injector.get(config.client || Reflect.getOwnMetadata(client_1.clientMetadataKey, service.constructor) || http_1.Http);
             if (!lang_1.isPresent(config.method)) {
                 var methodResolver = this.injector.get(method_resolver_1.MethodResolver);
                 config.method = methodResolver.resolve(methodName);

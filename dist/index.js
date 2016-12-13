@@ -4,6 +4,7 @@ function __export(m) {
 }
 __export(require('./rest.module'));
 __export(require('./rest.service'));
+__export(require('./client'));
 __export(require('./decorators/resource'));
 __export(require('./decorators/action'));
 __export(require('./decorators/body'));
