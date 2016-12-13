@@ -24,9 +24,9 @@ export interface ActionConfiguration<RequestData, TransformedRequestData, Respon
     method?: Method;
     path: string;
     headers?: Headers | HeadersGetter;
+    requestTransformer?: RequestTransformerType<RequestData, TransformedRequestData>;
     useRawResponse?: boolean;
-    responseTransformer?: ResponseTransformerType<RequestData, TransformedRequestData>;
-    requestTransformer?: RequestTransformerType<ResponseData, TransformedResponseData>;
+    responseTransformer?: ResponseTransformerType<ResponseData, TransformedResponseData>;
 }
 
 const appendHeaders = (service: RestService, headers: AngularHeaders, additionalHeaders: Headers | HeadersGetter | undefined): void => {

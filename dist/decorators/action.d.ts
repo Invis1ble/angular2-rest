@@ -10,8 +10,8 @@ export interface ActionConfiguration<RequestData, TransformedRequestData, Respon
     method?: Method;
     path: string;
     headers?: Headers | HeadersGetter;
+    requestTransformer?: RequestTransformerType<RequestData, TransformedRequestData>;
     useRawResponse?: boolean;
-    responseTransformer?: ResponseTransformerType<RequestData, TransformedRequestData>;
-    requestTransformer?: RequestTransformerType<ResponseData, TransformedResponseData>;
+    responseTransformer?: ResponseTransformerType<ResponseData, TransformedResponseData>;
 }
 export declare const Action: <RequestData, TransformedRequestData, ResponseData, TransformedResponseData>(config: ActionConfiguration<RequestData, TransformedRequestData, ResponseData, TransformedResponseData>) => MethodDecorator;
