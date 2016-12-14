@@ -6,12 +6,11 @@ require('rxjs/add/observable/of');
 require('rxjs/add/operator/map');
 require('rxjs/add/operator/switchMap');
 var body_1 = require('./body');
-var client_1 = require('../client');
-var headers_1 = require('../headers');
 var method_resolver_1 = require('../method-resolver');
 var parameter_1 = require('./parameter');
 var path_generator_1 = require('../path-generator');
 var query_1 = require('./query');
+var resource_1 = require('./resource');
 var appendHeaders = function (service, headers, additionalHeaders) {
     if (!lang_1.isPresent(additionalHeaders)) {
         return;
@@ -32,7 +31,11 @@ exports.Action = function (config) {
             for (var _i = 0; _i < arguments.length; _i++) {
                 args[_i - 0] = arguments[_i];
             }
-            var client = this.injector.get(config.client || Reflect.getOwnMetadata(client_1.clientMetadataKey, service.constructor) || http_1.Http);
+            var resourceConfig = Reflect.getOwnMetadata(resource_1.resourceMetadataKey, service.constructor);
+            if (!lang_1.isPresent(resourceConfig)) {
+                throw new Error('You have to define resource configuration.');
+            }
+            var client = this.injector.get(config.client || resourceConfig.client || http_1.Http);
             if (!lang_1.isPresent(config.method)) {
                 var methodResolver = this.injector.get(method_resolver_1.MethodResolver);
                 config.method = methodResolver.resolve(methodName);
@@ -43,10 +46,17 @@ exports.Action = function (config) {
                 config.path = generator.generate(config.path, parametersMetadata, args);
             }
             var headers = new http_1.Headers();
-            appendHeaders(service, headers, Reflect.getOwnMetadata(headers_1.headersMetadataKey, service.constructor));
+            appendHeaders(service, headers, resourceConfig.headers);
             appendHeaders(service, headers, config.headers);
+            var baseUrl;
+            if ('string' === typeof resourceConfig.baseUrl) {
+                baseUrl = resourceConfig.baseUrl;
+            }
+            else {
+                baseUrl = resourceConfig.baseUrl.call(this);
+            }
             var requestOptions = {
-                url: this.getBaseUrl() + config.path,
+                url: baseUrl + config.path,
                 method: config.method,
                 headers: headers
             };
