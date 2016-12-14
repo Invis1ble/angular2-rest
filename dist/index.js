@@ -9,7 +9,6 @@ __export(require('./decorators/action'));
 __export(require('./decorators/body'));
 __export(require('./decorators/parameter'));
 __export(require('./decorators/query'));
-__export(require('./decorators/query'));
 __export(require('./method-resolver'));
 __export(require('./path-generator'));
 //# sourceMappingURL=index.js.map
