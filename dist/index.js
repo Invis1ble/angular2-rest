@@ -4,14 +4,11 @@ function __export(m) {
 }
 __export(require('./rest.module'));
 __export(require('./rest.service'));
-__export(require('./client'));
 __export(require('./decorators/resource'));
 __export(require('./decorators/action'));
 __export(require('./decorators/body'));
 __export(require('./decorators/parameter'));
 __export(require('./decorators/query'));
-__export(require('./decorators/query'));
 __export(require('./method-resolver'));
 __export(require('./path-generator'));
-__export(require('./headers'));
 //# sourceMappingURL=index.js.map

@@ -1,5 +1,6 @@
 import { ClientType } from '../client';
 import { Headers, HeadersGetter } from '../headers';
+export declare const resourceMetadataKey: symbol;
 export interface BaseUrlGetter {
     (): string;
 }
