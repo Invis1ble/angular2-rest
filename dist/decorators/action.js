@@ -31,23 +31,13 @@ exports.Action = function (config) {
             for (var _i = 0; _i < arguments.length; _i++) {
                 args[_i - 0] = arguments[_i];
             }
-            var resourceConfig = Reflect.getOwnMetadata(resource_1.resourceMetadataKey, service.constructor);
+            var resourceConfig = Reflect.getMetadata(resource_1.resourceMetadataKey, service);
             if (!lang_1.isPresent(resourceConfig)) {
-                throw new Error('You have to define resource configuration.');
+                throw new Error('Resource configuration is not found.');
             }
-            var client = this.injector.get(config.client || resourceConfig.client || http_1.Http);
-            if (!lang_1.isPresent(config.method)) {
-                var methodResolver = this.injector.get(method_resolver_1.MethodResolver);
-                config.method = methodResolver.resolve(methodName);
+            if (!lang_1.isPresent(resourceConfig.baseUrl)) {
+                throw new Error('Base URL is not defined.');
             }
-            var parametersMetadata = Reflect.getOwnMetadata(parameter_1.parametersMetadataKey, service, methodName);
-            if (lang_1.isPresent(parametersMetadata)) {
-                var generator = this.injector.get(path_generator_1.PathGenerator);
-                config.path = generator.generate(config.path, parametersMetadata, args);
-            }
-            var headers = new http_1.Headers();
-            appendHeaders(service, headers, resourceConfig.headers);
-            appendHeaders(service, headers, config.headers);
             var baseUrl;
             if ('string' === typeof resourceConfig.baseUrl) {
                 baseUrl = resourceConfig.baseUrl;
@@ -56,10 +46,26 @@ exports.Action = function (config) {
                 baseUrl = resourceConfig.baseUrl.call(this);
             }
             var requestOptions = {
-                url: baseUrl + config.path,
-                method: config.method,
-                headers: headers
+                url: baseUrl,
+                headers: new http_1.Headers()
             };
+            var parametersMetadata = Reflect.getOwnMetadata(parameter_1.parametersMetadataKey, service, methodName);
+            if (lang_1.isPresent(parametersMetadata)) {
+                var generator = this.injector.get(path_generator_1.PathGenerator);
+                requestOptions.url += generator.generate(config.path, parametersMetadata, args);
+            }
+            else {
+                requestOptions.url += config.path;
+            }
+            if (lang_1.isPresent(config.method)) {
+                requestOptions.method = config.method;
+            }
+            else {
+                var methodResolver = this.injector.get(method_resolver_1.MethodResolver);
+                requestOptions.method = methodResolver.resolve(methodName);
+            }
+            appendHeaders(service, requestOptions.headers, resourceConfig.headers);
+            appendHeaders(service, requestOptions.headers, config.headers);
             var queriesMetadata = Reflect.getOwnMetadata(query_1.queriesMetadataKey, service, methodName);
             if (lang_1.isPresent(queriesMetadata)) {
                 requestOptions.search = queriesMetadata.reduce(function (search, metadata) {
@@ -75,6 +81,7 @@ exports.Action = function (config) {
                     requestOptions.body = requestTransformer.transform(requestOptions.body);
                 }
             }
+            var client = this.injector.get(config.client || resourceConfig.client || http_1.Http);
             var response = client.request(new http_1.Request(requestOptions));
             if (true !== config.useRawResponse) {
                 response = response.map(function (response) { return response.json(); });

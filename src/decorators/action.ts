@@ -49,30 +49,15 @@ const appendHeaders = (service: RestService, headers: AngularHeaders, additional
 export const Action = function <RequestData, TransformedRequestData, ResponseData, TransformedResponseData>(config: ActionConfiguration<RequestData, TransformedRequestData, ResponseData, TransformedResponseData>): MethodDecorator {
     return function <D extends TypedPropertyDescriptor<(...args: any[]) => Observable<Response | TransformedResponseData>>>(service: RestService, methodName: string, descriptor: D): D {
         descriptor.value = function (...args: any[]) {
-            const resourceConfig: ResourceConfiguration = Reflect.getOwnMetadata(resourceMetadataKey, service.constructor);
+            const resourceConfig: ResourceConfiguration = Reflect.getMetadata(resourceMetadataKey, service);
 
             if (!isPresent(resourceConfig)) {
-                throw new Error('You have to define resource configuration.');
+                throw new Error('Resource configuration is not found.');
             }
 
-            const client: Client = this.injector.get(config.client || resourceConfig.client || Http);
-
-            if (!isPresent(config.method)) {
-                const methodResolver: MethodResolver = this.injector.get(MethodResolver);
-                config.method = methodResolver.resolve(methodName);
+            if (!isPresent(resourceConfig.baseUrl)) {
+                throw new Error('Base URL is not defined.');
             }
-
-            const parametersMetadata: ParametersMetadata = Reflect.getOwnMetadata(parametersMetadataKey, service, methodName);
-
-            if (isPresent(parametersMetadata)) {
-                const generator: PathGenerator = this.injector.get(PathGenerator);
-                config.path = generator.generate(config.path, parametersMetadata, args);
-            }
-
-            const headers: AngularHeaders = new AngularHeaders();
-
-            appendHeaders(service, headers, resourceConfig.headers);
-            appendHeaders(service, headers, config.headers);
 
             let baseUrl: string;
 
@@ -83,10 +68,28 @@ export const Action = function <RequestData, TransformedRequestData, ResponseDat
             }
 
             const requestOptions: RequestArgs = {
-                url: baseUrl + config.path,
-                method: config.method,
-                headers: headers
+                url: baseUrl,
+                headers: new AngularHeaders()
             };
+
+            const parametersMetadata: ParametersMetadata = Reflect.getOwnMetadata(parametersMetadataKey, service, methodName);
+
+            if (isPresent(parametersMetadata)) {
+                const generator: PathGenerator = this.injector.get(PathGenerator);
+                requestOptions.url += generator.generate(config.path, parametersMetadata, args);
+            } else {
+                requestOptions.url += config.path;
+            }
+
+            if (isPresent(config.method)) {
+                requestOptions.method = config.method;
+            } else {
+                const methodResolver: MethodResolver = this.injector.get(MethodResolver);
+                requestOptions.method = methodResolver.resolve(methodName);
+            }
+
+            appendHeaders(service, requestOptions.headers, resourceConfig.headers);
+            appendHeaders(service, requestOptions.headers, config.headers);
 
             const queriesMetadata: QueriesMetadata = Reflect.getOwnMetadata(queriesMetadataKey, service, methodName);
 
@@ -107,6 +110,8 @@ export const Action = function <RequestData, TransformedRequestData, ResponseDat
                     requestOptions.body = requestTransformer.transform(requestOptions.body);
                 }
             }
+
+            const client: Client = this.injector.get(config.client || resourceConfig.client || Http);
 
             let response = client.request(new Request(requestOptions));
 
