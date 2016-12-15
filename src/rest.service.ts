@@ -4,6 +4,4 @@ export abstract class RestService {
 
     constructor(protected injector: Injector) {}
 
-    protected abstract getBaseUrl(): string;
-
 }
