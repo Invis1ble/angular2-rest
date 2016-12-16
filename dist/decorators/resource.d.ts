@@ -6,7 +6,7 @@ export interface BaseUrlGetter {
 }
 export interface ResourceConfiguration {
     client?: ClientType;
-    baseUrl: string | BaseUrlGetter;
+    baseUrl?: string | BaseUrlGetter;
     headers?: Headers | HeadersGetter;
 }
 export declare const Resource: (config: ResourceConfiguration) => ClassDecorator;

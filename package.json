@@ -1,6 +1,6 @@
 {
   "name": "ng2-rest-service",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "scripts": {
     "lint": "tslint src/**/*.ts",
     "prepublish": "tsc",
