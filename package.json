@@ -6,10 +6,7 @@
     "prepublish": "tsc",
     "tsc": "tsc"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/Invis1ble/angular2-rest"
-  },
+  "repository": "Invis1ble/angular2-rest",
   "author": "Invis1ble",
   "keywords": [
     "angular",
