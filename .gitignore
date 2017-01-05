@@ -16,3 +16,8 @@ Desktop.ini
 # Mac
 .DS_Store
 **/.DS_Store
+
+dist
+
+src/**/*.ngfactory.ts
+src/**/*.ngsummary.json

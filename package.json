@@ -1,15 +1,12 @@
 {
   "name": "ng2-rest-service",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "scripts": {
     "lint": "tslint src/**/*.ts",
-    "prepublish": "tsc",
+    "prepublish": "node node_modules/.bin/ngc -p tsconfig.json",
     "tsc": "tsc"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/Invis1ble/angular2-rest"
-  },
+  "repository": "Invis1ble/angular2-rest",
   "author": "Invis1ble",
   "keywords": [
     "angular",
@@ -30,6 +27,8 @@
   "dependencies": {},
   "devDependencies": {
     "@angular/common": "^2.3.0",
+    "@angular/compiler": "^2.4.1",
+    "@angular/compiler-cli": "^2.4.1",
     "@angular/core": "^2.3.0",
     "@angular/http": "^2.3.0",
     "@types/reflect-metadata": "0.0.5",

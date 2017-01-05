@@ -22,3 +22,8 @@ Desktop.ini
 # Mac
 .DS_Store
 **/.DS_Store
+
+*.ts
+!*.d.ts
+
+src/**/*.ngsummary.json
