@@ -3,7 +3,7 @@
   "version": "0.3.0",
   "scripts": {
     "lint": "tslint src/**/*.ts",
-    "prepublish": "tsc",
+    "prepublish": "node node_modules/.bin/ngc -p tsconfig.json",
     "tsc": "tsc"
   },
   "repository": "Invis1ble/angular2-rest",
@@ -27,6 +27,8 @@
   "dependencies": {},
   "devDependencies": {
     "@angular/common": "^2.3.0",
+    "@angular/compiler": "^2.4.1",
+    "@angular/compiler-cli": "^2.4.1",
     "@angular/core": "^2.3.0",
     "@angular/http": "^2.3.0",
     "@types/reflect-metadata": "0.0.5",
